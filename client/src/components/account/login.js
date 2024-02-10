@@ -33,7 +33,11 @@ const Sign = styled(Button)`
     border-color: #7c3185;
   }
 `;
-
+const signvalues = {
+  name: "",
+  usernames: "",
+  password: "",
+};
 const Login = () => {
   const [account, setaccount] = useState("login");
   const togglesign = () => {
@@ -42,7 +46,13 @@ const Login = () => {
   const togglelog = () => {
     setaccount("login");
   };
+  const oninputchange = (e) => {
+    setsignup({ ...signup, [e.target.name]: e.target.value });
+  };
+  // so here we dont want to overwrite we want to just append the value and here e.target.name is acting as a key
+  //and value is acting as a actual value from signvalues object
 
+  const [signup, setsignup] = useState();
   return (
     <>
       <img src={Images} style={{ height: 100 }} alt="login" />
@@ -95,18 +105,25 @@ const Login = () => {
               id="standard-basic"
               label="Name"
               variant="standard"
+              onChange={(e) => oninputchange(e)}
+              name="name"
             />
             <TextField
               style={{ paddingBottom: 10 }}
               id="standard-basic"
               label="Username"
               variant="standard"
+              onChange={(e) => oninputchange(e)}
+              name="username"
             />
             <TextField
               style={{ paddingBottom: 10 }}
               id="standard-basic"
               label="Password"
               variant="standard"
+              onChange={(e) => oninputchange(e)}
+              name="password"
+              type="password"
             />
             <Log
               style={{ paddingBottom: 10 }}
