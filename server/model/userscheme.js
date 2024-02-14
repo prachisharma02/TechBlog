@@ -16,6 +16,6 @@ const userSchema = mongoose.Schema({
   },
 });
 
-const user = mongoose.model("user", userSchema); // collection(like tables) bnana padta hai mongo me to user is collection name in which data will be stored
+const User = mongoose.model("user", userSchema); // collection(like tables) bnana padta hai mongo me to user is collection name in which data will be stored
 // jiske andar ye userschema store hoga
-export default user;
+export default User;

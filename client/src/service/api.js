@@ -8,7 +8,7 @@ const API_URL = "http://localhost:8000"; // server ka url hai
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
-  timeout: 10000,
+  timeout: 1000,
   headers: {
     "content-type": "application/json",
   },
@@ -76,7 +76,6 @@ const ProcessError = (error) => {
   } else if (error.request) {
     // The request was made but no response was received to connectivity issue hai ya network issue hai
     console.log("ERROR IN RESPONSE: second ", error.request);
-    console.log(error.toJson());
     return {
       isError: true,
       msg: API_NOTIFICATION_MESSAGES.requestFailure,

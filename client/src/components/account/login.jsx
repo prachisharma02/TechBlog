@@ -122,7 +122,7 @@ const Login = () => {
           <Container>
             <TextField
               style={{ paddingBottom: 10 }}
-              id="standard-basic"
+              // id="standard-basic"
               label="Name"
               variant="standard"
               onChange={(e) => oninputchange(e)}
@@ -130,7 +130,7 @@ const Login = () => {
             />
             <TextField
               style={{ paddingBottom: 10 }}
-              id="standard-basic"
+              // id="standard-basic"
               label="Username"
               variant="standard"
               onChange={(e) => oninputchange(e)}
