@@ -2,6 +2,7 @@ import { Box, TextField, Button, styled, Typography } from "@mui/material";
 import Images from "../images/bg.png";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { API } from "../../service/api";
 const Component = styled(Box)`
   margin: auto;
   width: 400px;
@@ -40,19 +41,37 @@ const signvalues = {
 };
 const Login = () => {
   const [account, setaccount] = useState("login");
+  const [signup, setsignup] = useState(signvalues);
+  const [error, showError] = useState("");
+
   const togglesign = () => {
     setaccount("signup");
   };
+
   const togglelog = () => {
     setaccount("login");
   };
+
   const oninputchange = (e) => {
     setsignup({ ...signup, [e.target.name]: e.target.value });
   };
   // so here we dont want to overwrite we want to just append the value and here e.target.name is acting as a key
   //and value is acting as a actual value from signvalues object
 
-  const [signup, setsignup] = useState();
+  const SignupUser = async () => {
+    try {
+      const response = await API.userSignup(signup);
+      if (response.isSuccess) {
+        showError("");
+        setsignup(signvalues);
+        togglelog("login");
+      } else {
+        showError("Something went wrong! please try again later");
+      }
+    } catch (error) {
+      showError(error.msg);
+    }
+  };
   return (
     <>
       <img src={Images} style={{ height: 100 }} alt="login" />
@@ -77,7 +96,8 @@ const Login = () => {
               id="standard-basic"
               label="Password"
               variant="standard"
-            />
+            />{" "}
+            {error && <Typography>{error}</Typography>}
             <Log
               style={{ paddingBottom: 10 }}
               variant="contained"
@@ -129,6 +149,7 @@ const Login = () => {
               style={{ paddingBottom: 10 }}
               variant="contained"
               color="success"
+              onClick={SignupUser}
             >
               Register
             </Log>
