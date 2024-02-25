@@ -69,7 +69,7 @@ const Login = () => {
         showError("Something went wrong! please try again later");
       }
     } catch (error) {
-      showError(error.msg);
+      showError(error.msg); //to tell whats the error
     }
   };
   return (
