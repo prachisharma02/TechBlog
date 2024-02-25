@@ -39,10 +39,15 @@ const signvalues = {
   usernames: "",
   password: "",
 };
+const loginInitialValues = {
+  username: "",
+  password: "",
+};
 const Login = () => {
   const [account, setaccount] = useState("login");
   const [signup, setsignup] = useState(signvalues);
   const [error, showError] = useState("");
+  const [login, setLogin] = useState(loginInitialValues);
 
   const togglesign = () => {
     setaccount("signup");
@@ -51,10 +56,14 @@ const Login = () => {
   const togglelog = () => {
     setaccount("login");
   };
+  const onValueChange = (e) => {
+    setLogin({ ...login, [e.target.name]: e.target.value });
+  };
 
   const oninputchange = (e) => {
     setsignup({ ...signup, [e.target.name]: e.target.value });
   };
+
   // so here we dont want to overwrite we want to just append the value and here e.target.name is acting as a key
   //and value is acting as a actual value from signvalues object
 
@@ -72,6 +81,32 @@ const Login = () => {
       showError(error.msg); //to tell whats the error
     }
   };
+  const loginUser = async () => {
+    let response = await API.userLogin(login); //config.js se userlogin h
+    if (response.isSuccess) {
+      showError("");
+
+      // sessionStorage.setItem(
+      //   "accessToken",
+      //   `Bearer ${response.data.accessToken}`
+      // );
+      // sessionStorage.setItem(
+      //   "refreshToken",
+      //   `Bearer ${response.data.refreshToken}`
+      // );
+      setaccount({
+        name: response.data.name,
+        username: response.data.username,
+      });
+
+      // isUserAuthenticated(true);
+      setLogin(loginInitialValues);
+      // navigate("/");
+    } else {
+      showError("Something went wrong! please try again later");
+    }
+  };
+
   return (
     <>
       <img src={Images} style={{ height: 100 }} alt="login" />
@@ -88,13 +123,17 @@ const Login = () => {
             <TextField
               style={{ paddingBottom: 10 }}
               id="standard-basic"
-              label="Username"
+              onChange={(e) => onValueChange(e)}
+              name="username"
+              label="Enter username"
               variant="standard"
             />
             <TextField
               style={{ paddingBottom: 10 }}
               id="standard-basic"
-              label="Password"
+              onChange={(e) => onValueChange(e)}
+              name="password"
+              label="Enter Password"
               variant="standard"
             />{" "}
             {error && <Typography>{error}</Typography>}
@@ -102,6 +141,7 @@ const Login = () => {
               style={{ paddingBottom: 10 }}
               variant="contained"
               color="success"
+              onClick={() => loginUser()}
             >
               Login
             </Log>
