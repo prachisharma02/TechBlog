@@ -12,7 +12,7 @@ app.use(BodyParser.urlencoded({ extended: true }));
 
 app.use("/", Route);
 //middleware communicates with the router and routes itself using the express middleware interface between requests and responses
-const PORT = 3000;
+const PORT = 8000;
 app.listen(PORT, () => {
   console.log(`server is running at port  ${PORT}`);
 });

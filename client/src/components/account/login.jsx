@@ -1,8 +1,10 @@
 import { Box, TextField, Button, styled, Typography } from "@mui/material";
 import Images from "../images/bg.png";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { API } from "../../service/api";
+import { DataContext } from "../../context/dataprovider";
+import { useNavigate } from "react-router-dom"; //custom hooks for navigation
 const Component = styled(Box)`
   margin: auto;
   width: 400px;
@@ -44,17 +46,19 @@ const loginInitialValues = {
   password: "",
 };
 const Login = () => {
-  const [account, setaccount] = useState("login");
+  const [account, toggleaccount] = useState("login");
   const [signup, setsignup] = useState(signvalues);
   const [error, showError] = useState("");
   const [login, setLogin] = useState(loginInitialValues);
+  const { setAccount } = useContext(DataContext);
+  const navigate = useNavigate();
 
   const togglesign = () => {
-    setaccount("signup");
+    toggleaccount("signup");
   };
 
   const togglelog = () => {
-    setaccount("login");
+    toggleaccount("login");
   };
   const onValueChange = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
@@ -86,22 +90,22 @@ const Login = () => {
     if (response.isSuccess) {
       showError("");
 
-      // sessionStorage.setItem(
-      //   "accessToken",
-      //   `Bearer ${response.data.accessToken}`
-      // );
-      // sessionStorage.setItem(
-      //   "refreshToken",
-      //   `Bearer ${response.data.refreshToken}`
-      // );
-      setaccount({
+      sessionStorage.setItem(
+        "accessToken",
+        `Bearer ${response.data.accessToken}`
+      );
+      sessionStorage.setItem(
+        "refreshToken",
+        `Bearer ${response.data.refreshToken}`
+      );
+      setAccount({
         name: response.data.name,
         username: response.data.username,
       });
 
       // isUserAuthenticated(true);
       setLogin(loginInitialValues);
-      // navigate("/");
+      navigate("/");
     } else {
       showError("Something went wrong! please try again later");
     }
